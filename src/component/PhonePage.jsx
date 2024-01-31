@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import OtpPage from "./OtpPage";
 const PhonePage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isOtpField, setIsOtpField] = useState(false);
+  const [isOtpValid,setIsOtpValid] = useState(false)
   const handleChange = (event) => {
     setPhoneNumber(event.target.value);
   };
@@ -30,12 +31,18 @@ const PhonePage = () => {
     // open  otp filed
   };
 
+  // useEffect(()=>{
+  //   setIsOtpValid(false)
+  // },[isOtpValid])
   const onSubmitOTP =(otp)=>{
     console.log("login successful",otp)
+    setIsOtpValid(true)
 
   }
   return (
-    <Container
+    <>
+    { !isOtpValid 
+    ?(<Container
       maxWidth="sm"
       sx={{
         display: "flex",
@@ -59,7 +66,7 @@ const PhonePage = () => {
           <form onSubmit={handleSubmit}>
             <Box>
               <TextField
-                label="phone Number"
+                label="Enter Phone Number"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -102,7 +109,23 @@ const PhonePage = () => {
       ) : (
         <OtpPage phoneNumber={phoneNumber} len={4} onSubmitOtp={onSubmitOTP} />
       )}
-    </Container>
+
+    </Container>)
+ :(<Container
+ maxWidth="sm"
+ sx={{
+   display: "flex",
+   flexDirection: "column",
+   alignItems: "center",
+   justifyContent: "center",
+   backgroundColor: "white",
+   padding: "20px",
+   borderRadius: "8px",
+ }}>
+ <Typography> Phone number verified successfully </Typography>
+</Container>)
+}
+</>
   );
 };
 
